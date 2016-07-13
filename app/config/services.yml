@@ -1,0 +1,107 @@
+parameters:
+
+    key_min: 100000
+    key_max: 999999
+
+    code_type: 'QRCODE,H'
+    code_size: 5
+
+    userkey_attempts: 3
+
+    works_limit: 10
+    files_limit: 10
+
+    orders_interval: 'P1D'
+
+services:
+
+    key_generator:
+        class: AppBundle\Service\KeyGenerator
+        arguments:
+            - '%key_min%'
+            - '%key_max%'
+
+    qrcode_generator:
+        class: AppBundle\Service\CodeGenerator
+        arguments:
+            - '%code_type%'
+            - '%code_size%'
+
+
+    userkey_service:
+        class: AppBundle\Service\UserKeyService
+        arguments:
+            - '%userkey_attempts%'
+            - '@key_generator'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+
+    carbody_service:
+        class: AppBundle\Service\CarbodyService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    orderinfo_service:
+        class: AppBundle\Service\OrderInfoService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@qrcode_generator'
+
+    orderedit_service:
+        class: AppBundle\Service\OrderEditService
+        arguments:
+            - '@ordercreate_command'
+            - '@orderupdate_command'
+            - '@event_dispatcher'
+
+    orderlist_service:
+        class: AppBundle\Service\OrderListService
+        arguments:
+            - '%orders_interval%'
+            - '@doctrine.orm.entity_manager'
+
+    ordersubscribe_service:
+            class: AppBundle\Service\OrderSubscribeService
+            arguments:
+                - '@ordersubscribe_command'
+                - '@event_dispatcher'
+
+
+    ordercreate_command:
+        class: AppBundle\Service\Command\OrderCreate
+        arguments:
+            - '%works_limit%'
+            - '%files_limit%'
+            - '@userkey_service'
+            - '@doctrine.orm.entity_manager'
+
+    orderupdate_command:
+        class: AppBundle\Service\Command\OrderUpdate
+        arguments:
+            - '%works_limit%'
+            - '%files_limit%'
+            - '@doctrine.orm.entity_manager'
+
+    ordersubscribe_command:
+        class: AppBundle\Service\Command\OrderSubscribe
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+
+    order_listener:
+        class: AppBundle\Event\OrderEventListener
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags:
+            - { name: 'kernel.event_listener', event: 'app.order.created',       method: 'onCreate' }
+            - { name: 'kernel.event_listener', event: 'app.order.updated',       method: 'onUpdate' }
+            - { name: 'kernel.event_listener', event: 'app.order.subscribed_on', method: 'onSubscribedOn' }
+
+    carservice_listener:
+        class: AppBundle\Event\CarServiceEventListener
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags:
+            - { name: 'kernel.event_listener', event: 'app.carservie.subscribe', method: 'onSubscribe' }

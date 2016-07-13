@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="app/css/cabinet.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/underscore/underscore-min.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+    <script src="node_modules/bootstrap/js/modal.js"></script>
+
+    <script id="orderTemplate" type="text/template">
+        <div class="col-md-12">
+            <div class="estimate-title">
+                <h4>Заказ #<%= key %>. <%= estimates[0].car.name %> <%= estimates[0].car.number %>  </h4>
+            </div>
+            <div class="photo-container">
+                <% _.each(files, function(file) { %>
+                <a href="" id="zoo"><img src="http://localhost:8000/api/carbody/file/<%= file.key %>" class="photo"></a>
+                <% }) %>
+            </div>
+            <div class="estimate">
+                <% _.each(estimates[0].packages, function(estimate) { %>
+                <h5><strong><%= estimate.detail %> - </strong>
+                    <% _.each(estimate.works, function(item) { %>
+                    <%= item %>,
+                    <% }) %>
+                </h5>
+                <% }) %>
+                <h4>Итого <strong> <%= estimates[0].cost %> </strong> руб.</h4>
+                <button type="button" class="btn btn-success">Подписаться</button>
+                <!--<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changeOrder">Изменить</button>-->
+            </div>
+        </div>
+    </script>
+
+    <script id="change" type="text/template">
+        <div>
+            <% _.each(packages, function(estimate) { %>
+            <h5><strong><%= estimate.detail %> - </strong>
+                <% _.each(estimate.works, function(item) { %>
+                <%= item %>,
+                <% }) %>
+            </h5>
+            <% }) %>
+            <h4>Итого <strong> <%= cost %> </strong> руб.</h4>
+        </div>
+    </script>
+
+</head>
+<body>
+
+<script src="app/js/models/order.js"></script>
+<script src="app/js/models/subscribe.js"></script>
+<script src="app/js/collections/orders.js"></script>
+<script src="app/js/views/order.js"></script>
+<script src="app/js/views/changeview.js"></script>
+<script src="app/js/views/listorder.js"></script>
+<script src="app/js/app.js"></script>
+
+
+
+<div class="container">
+
+    <div class="masthead">
+        <h3 class="text-muted">Авто-ремонтник.ру</h3>
+        <ul class="nav nav-justified">
+            <li class="active"><a href="#">Главная</a></li>
+            <li><a href="#">Новые заказы</a></li>
+            <li><a href="#">Мои оценки</a></li>
+            <li><a href="#">Отчет по работам</a></li>
+        </ul>
+    </div>
+
+    <!-- Приветствие для сервиса -->
+    <div class="jumbotron">
+        <h2> Добро пожаловать  !</h2>
+        <p class="lead"> Оценивайте запросы потенциальных клиентов в режиме онлайн, и зарабатывайте больше с каждым днем. Мы предварительно оцениваем стоимость работ по всем заказам, Вы можете согласиться с нашей оценкой или предложить свою. </p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Приступить к оценке</a></p>
+    </div>
+
+    <!-- Сетка заказов -->
+    <div class="row">
+
+    <!-- Всплывающее окно для редактирования заказа -->
+    <div class="modal fade" id="changeOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Подписаться на заказ</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="zoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" id="preview" class="img-responsive" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</div>
+
+
+
+
+<div class="footer">
+
+</div>
+
+
+
+
+
+</body>
+<script src="app/js/cabinet.js"></script>
+</html>

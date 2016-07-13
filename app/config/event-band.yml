@@ -1,0 +1,27 @@
+event_band:
+
+    publishers:
+        app.order.event.publisher:
+            events:
+                - 'app.order.created'
+                - 'app.order.updated'
+            transport:
+                amqp:
+                    exchange: app.order.event.exchange
+
+    consumers:
+        app.order.event: ~
+
+    transports:
+        amqp:
+            driver: amqplib
+            connections:
+                default:
+                    exchanges:
+                        app.order.event.exchange: ~
+                    queues:
+                        app.order.event:
+                            bind:
+                                app.order.event.exchange:
+                                  - 'app.order.created'
+                                  - 'app.order.updated'

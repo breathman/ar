@@ -1,0 +1,22 @@
+.photo {
+    min-height: 200px;
+    max-height: 250px;
+    max-width: 300px;
+    padding: 20px 20px 20px 40px;
+}
+
+.estimate {
+    padding: 10px 10px 10px 10px;
+    min-height: 200px;
+}
+
+.estimate-title {
+
+}
+
+.footer {
+    margin-top: 50px;
+    padding: 50px 0 50px 0;
+    background-color: rgba(7, 86, 51, 0.81);
+    width: 100%;
+}

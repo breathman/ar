@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000/api/carbody/order" method="POST" enctype="multipart/form-data">
+        <input type="text" name="key" value=""> Пользовательский ключ обновляемого заказа
+
+        <br/>
+        <input type="text" name="number" value="AAA123B"> Номер авто
+        <br/>
+        <textarea name="note">Эта текстовая заметка в момент создания заказа</textarea>
+
+        <br/>
+        <input type="text" name="name"  value="Влад"> Имя контакта
+        <br/>
+        <input type="text" name="phone" value="89067773392"> Телефон контакта
+        <br/>
+        <input type="text" name="email" value="vlad.maslennikov@gmail.com"> Почта контакта
+
+        <input type="hidden" name="work[]" value="1">
+        <input type="hidden" name="work[]" value="2">
+
+        <br/>
+        <input type="file" name="photo[]"/>
+        <br/>
+        <input type="file" name="photo[]"/>
+        <br/>
+        <input type="file" name="photo[]"/>
+
+        <br/>
+        <input type="submit" />
+    </form>
+</body>
+</html>

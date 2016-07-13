@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="cabinet">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <link rel="stylesheet" href="/../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/app/css/cabinet.css">
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/js/modal.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="masthead">
+        <h3 class="text-muted">Авто-ремонтник.ру</h3>
+        <ul class="nav nav-justified">
+            <li class="active"><a href="#">Главная</a></li>
+            <li><a href="#">Новые заказы</a></li>
+            <li><a href="#">Мои оценки</a></li>
+            <li><a href="#">Отчет по работам</a></li>
+        </ul>
+    </div>
+
+    <!-- Приветствие для сервиса -->
+    <div class="jumbotron" ng-controller="ServiceController">
+        <h2> Добро пожаловать {{ name }} !</h2>
+        <p class="lead"> Оценивайте запросы потенциальных клиентов в режиме онлайн, и зарабатывайте больше с каждым днем. Мы предварительно оцениваем стоимость работ по всем заказам, Вы можете согласиться с нашей оценкой или предложить свою. </p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Приступить к оценке</a></p>
+    </div>
+
+    <!-- Сетка заказов -->
+    <div class="row" ng-controller="OrderController">
+        <div class="col-md-4">
+            <div class="estimate-title">
+                <h3> {{ getTitle() }}</h3>
+            </div>
+            <img src="app/photo/mazda.jpg" alt="mazda" class="img-responsive photo">
+            <div class="estimate">
+                <ol>Дверь
+                    <li>Подготовка</li>
+                    <li>Покраска</li>
+                </ol>
+                <h4>Итого <strong> {{ order.cost }} </strong> руб.</h4>
+                <button type="button" class="btn btn-success">Подтвердить</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changeOrder">Изменить</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="estimate-title">
+                <h3>Ремонт средних повреждений бампер Шевроле Круз</h3>
+            </div>
+            <img src="app/photo/cruze.jpg" alt="mazda" class="img-responsive photo">
+            <div class="estimate">
+                <ol>Бампер
+                    <li>Варка пластика</li>
+                    <li>Подготовка</li>
+                    <li>Покраска</li>
+                </ol>
+                <h4>Итого <strong> 7400 </strong> руб.</h4>
+                <button type="button" class="btn btn-success">Подтвердить</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changeOrder">Изменить</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="estimate-title">
+                <h3>Ремонт мелких царапин капот БМВ 3</h3>
+            </div>
+                <img src="app/photo/bmw.jpg" alt="mazda" class="img-responsive photo">
+            <div class="estimate">
+                <ol>Капот
+                    <li>Полировка</li>
+                </ol>
+                <h4>Итого <strong> 2600 </strong> руб.</h4>
+                <button type="button" class="btn btn-success">Подтвердить</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changeOrder">Изменить</button>
+            </div>
+        </div>
+
+        {{orders | json }}
+
+    </div>
+
+    <!-- Всплывающее окно для редактирования заказа -->
+    <div class="modal fade" id="changeOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Название модали</h4>
+                </div>
+                <div class="modal-body">
+                    {{ name }}
+                    <input type="text" ng-model="cost">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="footer">
+
+</div>
+<script src="app/bower_components/angular/angular.js"></script>
+<script src="app/js/script.js"></script>
+</body>
+</html>
